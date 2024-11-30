@@ -8,4 +8,4 @@ router.get('/users', UserController.getAllUsers);
 router.patch('/users/:userId/balance', UserController.updateUser);
 
 
-export const UsersRoutes = router;
+export default UsersRoutes;
