@@ -1,8 +1,8 @@
 import express from 'express';
+const app = express();
 import cors from 'cors';
 import { UsersRoutes } from './app/modules/user/user.routes.js';
-
-const app = express();
+import path from "path"
 
 // parsers
 
@@ -37,6 +37,13 @@ app.use('/api/v1', UsersRoutes);
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to Server' });
 });
+
+
+
+// update code 
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+})
 
 // Client-side error handler
 app.use((req, res, next) => {
