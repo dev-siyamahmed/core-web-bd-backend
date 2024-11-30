@@ -11,7 +11,7 @@ app.use(express.json());
 // cors origin
 const corsOptions = {
   // origin: ["*", "http://localhost:5173", "http://localhost:5174"],
-  origin: ["https://core-web-bd-front-end.vercel.app", "https://core-web-bd-front-end.vercel.app"],
+  origin: "https://core-web-bd-front-end.vercel.app",
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -30,12 +30,12 @@ app.get('/', (req, res) => {
 app.use((req, res, next) => {
   const error = new Error("Route not found");
   error.status = 404;
-  next(error); 
+  next(error);
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
-  const status = err.status || 500; 
+  const status = err.status || 500;
   const message = err.message || "Internal Server Error";
   res.status(status).json({ message });
 });
