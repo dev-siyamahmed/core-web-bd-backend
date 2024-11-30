@@ -7,28 +7,26 @@ const app = express();
 // parsers
 app.use(express.json());
 
+app.use(
+  cors({
+    origin: ["https://core-web-bd-front-end.vercel.app"], // Add your frontend's deployed URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Include all allowed methods
+    credentials: true,
+  })
+);
 
-// // cors origin
+// cors origin
 // const corsOptions = {
-//   // origin: ["*", "http://localhost:5173", "http://localhost:5174"],
-//   origin: "https://core-web-bd-front-end.vercel.app",
+//   origin: [
+//     'https://core-web-bd-front-end.vercel.app',  // Production
+//     // 'http://localhost:5173'                      // Local Development
+//   ],
 //   credentials: true,
 //   optionSuccessStatus: 200,
 // };
 
 
-// cors origin
-const corsOptions = {
-  origin: [
-    'https://core-web-bd-front-end.vercel.app',  // Production
-    // 'http://localhost:5173'                      // Local Development
-  ],
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // application routes
 app.use('/api/v1', UsersRoutes);
