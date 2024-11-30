@@ -1,5 +1,5 @@
-import cors from 'cors';
 import express from 'express';
+import cors from 'cors';
 import { UsersRoutes } from './app/modules/user/user.routes.js';
 
 const app = express();
@@ -8,15 +8,31 @@ const app = express();
 app.use(express.json());
 
 
+// // cors origin
+// const corsOptions = {
+//   // origin: ["*", "http://localhost:5173", "http://localhost:5174"],
+//   origin: "https://core-web-bd-front-end.vercel.app",
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// };
+
+
 // cors origin
 const corsOptions = {
-  // origin: ["*", "http://localhost:5173", "http://localhost:5174"],
-  origin: "https://core-web-bd-front-end.vercel.app",
+  origin: [
+    'https://core-web-bd-front-end.vercel.app',  // Production
+    // 'http://localhost:5173'                      // Local Development
+  ],
   credentials: true,
   optionSuccessStatus: 200,
 };
 
+
 app.use(cors(corsOptions));
+
+
+app.options('*', cors(corsOptions)); // Enable CORS for preflight requests
+
 
 // application routes
 app.use('/api/v1', UsersRoutes);
