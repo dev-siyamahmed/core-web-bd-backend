@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { UsersRoutes } from './app/modules/user/user.routes.js';
+import router from './app/api/routes.js';
 
 const app = express();
 
@@ -35,7 +35,10 @@ app.options('*', cors(corsOptions)); // Enable CORS for preflight requests
 
 
 // application routes
-app.use('/api/v1', UsersRoutes);
+// app.use('/api/v1', UsersRoutes);
+
+// API routes
+app.use("/api/v1", router);
 
 // Home route
 app.get('/', (req, res) => {
