@@ -1,49 +1,37 @@
-import express from 'express';
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { UsersRoutes } from "./app/modules/user/user.routes.js";
+
 const app = express();
-import cors from 'cors';
-import { UsersRoutes } from './app/modules/user/user.routes.js';
-import path from "path"
 
-// parsers
+// Middleware to parse JSON
+app.use(express.json());
 
-
+// CORS configuration
 app.use(
   cors({
     origin: ["https://core-web-bd-front-end.vercel.app"], // Add your frontend's deployed URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Include all allowed methods
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Include PATCH and OPTIONS
     credentials: true,
   })
 );
 
-app.use(express.json());
-
-// cors origin
-// const corsOptions = {
-//   origin: [
-//     'https://core-web-bd-front-end.vercel.app',  // Production
-//     // 'http://localhost:5173'                      // Local Development
-//   ],
-//   credentials: true,
-//   optionSuccessStatus: 200,
-// };
-
-
-// app.use(cors(corsOptions));
-
-// application routes
-app.use('/api/v1', UsersRoutes);
+// Application routes
+app.use("/api/v1", UsersRoutes);
 
 // Home route
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Welcome to Server' });
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to Server" });
 });
 
+// Serve static files from the React app
+app.use(express.static(path.join(path.resolve(), "client/build")));
 
-
-// update code 
+// Handle undefined routes (React SPA fallback)
 app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
-})
+  res.sendFile(path.join(path.resolve(), "client/build", "index.html"));
+});
 
 // Client-side error handler
 app.use((req, res, next) => {
