@@ -11,7 +11,8 @@ app.use(express.json());
 // CORS configuration
 app.use(
   cors({
-    origin: ["https://core-web-bd-front-end.vercel.app"], // Add your frontend's deployed URL
+    origin: ["https://core-web-bd-front-end.vercel.app"],
+    // origin: ["http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Include PATCH and OPTIONS
     credentials: true,
   })
