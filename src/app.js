@@ -20,8 +20,8 @@ app.use(express.json());
 // cors origin
 const corsOptions = {
   origin: [
-    'https://core-web-bd-front-end.vercel.app',  // Production
-    // 'http://localhost:5173'                      // Local Development
+    // 'https://core-web-bd-front-end.vercel.app',  // Production
+    'http://localhost:5173'                      // Local Development
   ],
   credentials: true,
   optionSuccessStatus: 200,
