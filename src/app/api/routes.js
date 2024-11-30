@@ -1,12 +1,9 @@
 import express from 'express';
-import { UsersRoutes } from '../modules/user/user.routes.js';
-
+import { UsersRoutes } from './modules/user/user.routes.js';
 
 const router = express.Router();
 
 // Dynamically apply routers
-const routers = [UsersRoutes];
-
-routers.forEach(route => router.use(route));
+router.use('/api/v1', UsersRoutes); // Make sure routes are registered here
 
 export default router;
