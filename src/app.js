@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import path from "path"
 import { UsersRoutes } from './app/modules/user/user.routes.js';
 
 const app = express();
@@ -32,6 +33,16 @@ app.use((req, res, next) => {
   error.status = 404;
   next(error); 
 });
+
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// update code 
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+})
+
 
 // Global error handler
 app.use((err, req, res, next) => {
