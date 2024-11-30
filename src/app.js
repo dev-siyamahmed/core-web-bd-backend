@@ -2,13 +2,13 @@ import cors from 'cors';
 import express from 'express';
 import { UsersRoutes } from './app/modules/user/user.routes.js';
 
-
-
 const app = express();
 
-//parsers
+// parsers
 app.use(express.json());
 
+
+// cors origin
 const corsOptions = {
   origin: ["*", "http://localhost:5173", "http://localhost:5174"],
   credentials: true,
@@ -20,8 +20,6 @@ app.use(cors(corsOptions));
 // application routes
 app.use('/api/v1', UsersRoutes);
 
-
-
 // Home route
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to Server' });
@@ -29,14 +27,16 @@ app.get('/', (req, res) => {
 
 // Client-side error handler
 app.use((req, res, next) => {
-  next(createError(404, { message: "Route not found" }));
+  const error = new Error("Route not found");
+  error.status = 404;
+  next(error); 
 });
 
-// Invalid URL handler
-app.get("*", (req, res) => {
-  res.status(404).json({ message: "Invalid URL" });
+// Global error handler
+app.use((err, req, res, next) => {
+  const status = err.status || 500; 
+  const message = err.message || "Internal Server Error";
+  res.status(status).json({ message });
 });
-
-
 
 export default app;
