@@ -5,7 +5,7 @@ import { UsersRoutes } from './app/modules/user/user.routes.js';
 const app = express();
 
 // parsers
-app.use(express.json());
+
 
 app.use(
   cors({
@@ -14,6 +14,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(express.json());
 
 // cors origin
 // const corsOptions = {
