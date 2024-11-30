@@ -1,9 +1,10 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
 
 // Mongoose Schema for User
 const UserSchema = new Schema(
   {
-    Username: {
+    username: {
       type: String,
       required: [true, 'Username is required.'],
       trim: true,
@@ -26,22 +27,20 @@ const UserSchema = new Schema(
   }
 );
 
-
 // Hash the password before saving it to the database
 UserSchema.pre('save', async function (next) {
-    // Only hash the password if it's new or modified
-    if (this.isModified('password')) {
-      const salt = await bcrypt.genSalt(10);
-      this.password = await bcrypt.hash(this.password, salt);
-    }
-    next();
-  });
-  
-  // Method to compare entered password with the stored hashed password
-  UserSchema.methods.comparePassword = async function (password) {
-    return bcrypt.compare(password, this.password);
-  };
-  
+  // Only hash the password if it's new or modified
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  next();
+});
+
+// Method to compare entered password with the stored hashed password
+UserSchema.methods.comparePassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
 
 // Create the User model
 export const User = model('User', UserSchema);
